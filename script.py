@@ -81,7 +81,7 @@ def get_next_time_to_tweet():
     options = [
         datetime.replace(datetime.now() + timedelta(days=1), hour=0, minute=0, second=0),
         datetime.replace(datetime.now() + timedelta(hours=1), minute=0, second=0),
-        datetime.replace(datetime.now() + timedelta(minutes=randint(1,59)), second=0),
+        datetime.replace(datetime.now() + timedelta(minutes=random.randint(1,59)), second=0),
     ]
     return random.choice(options)
 
