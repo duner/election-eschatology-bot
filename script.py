@@ -6,8 +6,7 @@ import pytz
 import time
 
 ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
-# WAIT_FOR = 60 if os.environ.get("ON_HEROKU", False) else 3600
-WAIT_FOR = 60 if os.environ.get("ON_HEROKU", False) else 60
+WAIT_FOR = 60 if os.environ.get("ON_HEROKU", False) else 3600
 
 auth = tweepy.OAuthHandler(
     os.environ.get('TWITTER_CONSUMER_KEY'),
