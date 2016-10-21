@@ -6,7 +6,7 @@ import pytz
 import random
 import time
 
-ODDS = 2 if os.environ.get("ON_HEROKU", False) else 1
+ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
 WAIT_FOR = 3600 if os.environ.get("ON_HEROKU", False) else 500
 
 auth = tweepy.OAuthHandler(
