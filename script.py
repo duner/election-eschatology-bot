@@ -6,9 +6,7 @@ import pytz
 import random
 import time
 
-
-
-ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
+ODDS = 2 if os.environ.get("ON_HEROKU", False) else 1
 WAIT_FOR = 3600 if os.environ.get("ON_HEROKU", False) else 500
 
 auth = tweepy.OAuthHandler(
@@ -56,15 +54,14 @@ def construct_string(delta, totals):
         ' until this trainwreck of an election comes to an end.'
     ]
     middles = [
-        "{} seconds".format(int(totals['total_seconds']))
+        "{} seconds".format(int(totals['total_seconds'])),
+        "{} minutes".format(totals['total_minutes'])
     ]
 
     if now.hour == 0:
         middles.append("{} days".format(days))
     if now.minute == 0:
         middles.append("{} hours".format(totals['total_hours']))
-    if now.second == 0:
-        middles.append("{} minutes".format(totals['total_minutes']))
 
     fancy_middle = []
     if days: fancy_middle.append("{} days".format(days))
@@ -72,6 +69,8 @@ def construct_string(delta, totals):
     if minutes: fancy_middle.append("{} minutes".format(minutes))
 
     middles.append(list_to_sentance(fancy_middle))
+
+    print(middles)
 
     string = random.choice(beginnings) + random.choice(middles) + random.choice(endings)
     return string
@@ -101,7 +100,7 @@ def main():
                 totals = timedelta_by_total_periods(delta)
                 string = construct_string(delta, totals)
                 if len(string) < 140:
-                    send_tweet(string)
+                    # send_tweet(string)
                     have_i_tweeted = True
 
 
