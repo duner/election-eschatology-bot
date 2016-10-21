@@ -100,7 +100,7 @@ def main():
                 totals = timedelta_by_total_periods(delta)
                 string = construct_string(delta, totals)
                 if len(string) < 140:
-                    # send_tweet(string)
+                    send_tweet(string)
                     have_i_tweeted = True
 
 
