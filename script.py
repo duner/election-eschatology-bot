@@ -3,7 +3,6 @@ import random
 import tweepy
 from datetime import datetime, timezone, timedelta
 import pytz
-import random
 import time
 
 ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
@@ -96,6 +95,7 @@ def main():
             print("NEXT TWEET AT: " + tweet_at.isoformat())
             wait_to_tweet = tweet_at - datetime.now()
             if wait_to_tweet.total_seconds() < WAIT_FOR: #dont wait more than one hour
+                print("WAITING FOR " + str(wait_to_tweet.total_seconds()) + " SECONDS")
                 time.sleep(wait_to_tweet.seconds)
                 delta = get_timedelta_till_election()
                 totals = timedelta_by_total_periods(delta)
