@@ -8,7 +8,7 @@ import time
 
 ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
 # WAIT_FOR = 3600 if os.environ.get("ON_HEROKU", False) else 500
-WAIT_FOR = 120 if os.environ.get("ON_HEROKU", False) else 500
+WAIT_FOR = 200 if os.environ.get("ON_HEROKU", False) else 500
 
 auth = tweepy.OAuthHandler(
     os.environ.get('TWITTER_CONSUMER_KEY'),
@@ -51,7 +51,7 @@ def construct_string(delta, totals):
     endings = [
         ' until the first polls close on Election Day.',
         ' until the first major set of poll closings across America!',
-        ' until this godforsaken election finally ends.'
+        ' until this godforsaken election finally ends.',
         ' until this trainwreck of an election comes to an end.'
     ]
     middles = [
@@ -81,7 +81,7 @@ def get_next_time_to_tweet():
     options = [
         datetime.replace(datetime.now() + timedelta(days=1), hour=0, minute=0, second=0),
         datetime.replace(datetime.now() + timedelta(hours=1), minute=0, second=0),
-        datetime.replace(datetime.now() + timedelta(minutes=1), second=0),
+        datetime.replace(datetime.now() + timedelta(minutes=randint(1,59)), second=0),
     ]
     return random.choice(options)
 
