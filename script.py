@@ -8,8 +8,8 @@ import time
 
 
 
-ODDS = 10 if os.environ.get("ON_HEROKU", False) else 1
-DONT_WAIT_MORE_THAN = 7200 if os.environ.get("ON_HEROKU", False) else 60
+ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
+WAIT_FOR = 3600 if os.environ.get("ON_HEROKU", False) else 500
 
 auth = tweepy.OAuthHandler(
     os.environ.get('TWITTER_CONSUMER_KEY'),
@@ -34,7 +34,6 @@ def timedelta_by_total_periods(delta):
         'total_hours': (seconds/60),
         'total_minutes': round(seconds/60),
         'total_seconds': seconds,
-        'total_milliseconds': seconds * 1000
     }
 
 def list_to_sentance(list):
@@ -56,7 +55,9 @@ def construct_string(delta, totals):
         ' until this godforsaken election finally ends.'
         ' until this trainwreck of an election comes to an end.'
     ]
-    middles = []
+    middles = [
+        "{} seconds".format(int(totals['total_seconds']))
+    ]
 
     if now.hour == 0:
         middles.append("{} days".format(days))
@@ -86,22 +87,22 @@ def get_next_time_to_tweet():
 
 def send_tweet(string):
     status = api.update_status(status=string)
-
+    print("TWEETED: " + string)
 
 def main():
     have_i_tweeted = False
     while not have_i_tweeted:
-        delta = get_timedelta_till_election()
-        totals = timedelta_by_total_periods(delta)
-        string = construct_string(delta, totals)
-        if len(string) < 140:
             tweet_at = get_next_time_to_tweet()
             print("NEXT TWEET AT: " + tweet_at.isoformat())
             wait_to_tweet = tweet_at - datetime.now()
-            if wait_to_tweet.total_seconds() < DONT_WAIT_MORE_THAN: #dont wait more than two hours
+            if wait_to_tweet.total_seconds() < WAIT_FOR: #dont wait more than one hour
                 time.sleep(wait_to_tweet.seconds)
-                send_tweet(string)
-                have_i_tweeted = True
+                delta = get_timedelta_till_election()
+                totals = timedelta_by_total_periods(delta)
+                string = construct_string(delta, totals)
+                if len(string) < 140:
+                    send_tweet(string)
+                    have_i_tweeted = True
 
 
 if __name__ == "__main__":
