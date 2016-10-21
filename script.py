@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 import pytz
 import time
 
-ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
+ODDS = 3 if os.environ.get("ON_HEROKU", False) else 3
 WAIT_FOR = 60 if os.environ.get("ON_HEROKU", False) else 3600
 
 auth = tweepy.OAuthHandler(
