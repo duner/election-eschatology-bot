@@ -7,7 +7,8 @@ import random
 import time
 
 ODDS = 1 if os.environ.get("ON_HEROKU", False) else 1
-WAIT_FOR = 3600 if os.environ.get("ON_HEROKU", False) else 500
+# WAIT_FOR = 3600 if os.environ.get("ON_HEROKU", False) else 500
+WAIT_FOR = 120 if os.environ.get("ON_HEROKU", False) else 500
 
 auth = tweepy.OAuthHandler(
     os.environ.get('TWITTER_CONSUMER_KEY'),
@@ -54,19 +55,19 @@ def construct_string(delta, totals):
         ' until this trainwreck of an election comes to an end.'
     ]
     middles = [
-        "{} seconds".format(int(totals['total_seconds'])),
-        "{} minutes".format(totals['total_minutes'])
+        "{:,} seconds".format(int(totals['total_seconds'])),
+        "{:,} minutes".format(totals['total_minutes'])
     ]
 
     if now.hour == 0:
-        middles.append("{} days".format(days))
+        middles.append("{:,} days".format(days))
     if now.minute == 0:
-        middles.append("{} hours".format(totals['total_hours']))
+        middles.append("{:,} hours".format(totals['total_hours']))
 
     fancy_middle = []
-    if days: fancy_middle.append("{} days".format(days))
-    if hours: fancy_middle.append("{} hours".format(hours))
-    if minutes: fancy_middle.append("{} minutes".format(minutes))
+    if days: fancy_middle.append("{:,} days".format(days))
+    if hours: fancy_middle.append("{:,} hours".format(hours))
+    if minutes: fancy_middle.append("{:,} minutes".format(minutes))
 
     middles.append(list_to_sentance(fancy_middle))
 
