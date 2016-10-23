@@ -54,6 +54,7 @@ def construct_string(delta, totals):
     ]
     middles = [
         "{:,} seconds".format(int(totals['total_seconds'])),
+        "{:,} minutes".format(totals['total_minutes']),
         "{:,} minutes".format(totals['total_minutes'])
     ]
 
@@ -63,12 +64,14 @@ def construct_string(delta, totals):
         middles.append("{:,} hours".format(totals['total_hours']))
         middles.append("{:,} hours".format(totals['total_hours']))
         middles.append("{:,} hours".format(totals['total_hours']))
+        middles.append("{:,} hours".format(totals['total_hours']))
 
     fancy_middle = []
     if days: fancy_middle.append("{:,} days".format(days))
     if hours: fancy_middle.append("{:,} hours".format(hours))
     if minutes: fancy_middle.append("{:,} minutes".format(minutes))
 
+    middles.append(list_to_sentance(fancy_middle))
     middles.append(list_to_sentance(fancy_middle))
 
     string = random.choice(beginnings) + random.choice(middles) + random.choice(endings)
