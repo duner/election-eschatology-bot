@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 import pytz
 import time
 
-ODDS = 3 if os.environ.get("ON_HEROKU", False) else 3
+ODDS = 2 if os.environ.get("ON_HEROKU", False) else 2
 WAIT_FOR = 60 if os.environ.get("ON_HEROKU", False) else 3600
 
 auth = tweepy.OAuthHandler(
@@ -61,6 +61,8 @@ def construct_string(delta, totals):
         middles.append("{:,} days".format(days))
     if now.minute == 0:
         middles.append("{:,} hours".format(totals['total_hours']))
+        middles.append("{:,} hours".format(totals['total_hours']))
+        middles.append("{:,} hours".format(totals['total_hours']))
 
     fancy_middle = []
     if days: fancy_middle.append("{:,} days".format(days))
@@ -68,8 +70,6 @@ def construct_string(delta, totals):
     if minutes: fancy_middle.append("{:,} minutes".format(minutes))
 
     middles.append(list_to_sentance(fancy_middle))
-
-    print(middles)
 
     string = random.choice(beginnings) + random.choice(middles) + random.choice(endings)
     return string
