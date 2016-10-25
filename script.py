@@ -28,7 +28,7 @@ def get_timedelta_till_election():
 def timedelta_by_total_periods(delta):
     seconds = delta.total_seconds()
     return {
-        'total_hours': (seconds/60),
+        'total_hours': round((seconds/60)/60),
         'total_minutes': round(seconds/60),
         'total_seconds': seconds,
     }
@@ -82,6 +82,10 @@ def get_next_time_to_tweet():
     options = [
         datetime.replace(datetime.now() + timedelta(days=1), hour=0, minute=0, second=0),
         datetime.replace(datetime.now() + timedelta(hours=1), minute=0, second=0),
+        datetime.replace(datetime.now() + timedelta(hours=1), minute=0, second=0),
+        datetime.replace(datetime.now() + timedelta(hours=1), minute=0, second=0),
+        datetime.replace(datetime.now() + timedelta(hours=1), minute=0, second=0),
+        datetime.replace(datetime.now() + timedelta(minutes=random.randint(1,59)), second=0),
         datetime.replace(datetime.now() + timedelta(minutes=random.randint(1,59)), second=0),
     ]
     return random.choice(options)
